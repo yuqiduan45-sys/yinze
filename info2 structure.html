@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组织架构 - 某某公益基金会</title>
+    <style>
+        /* --- 1. 基础变量与重置 --- */
+        :root {
+            --brand-orange: #f39200;
+            --brand-warm-bg: #fdfaf5;
+            --text-main: #374151;
+            --text-dark: #111827;
+            --text-gray: #9ca3af;
+            --border-color: #f3f4f6;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; 
+            background-color: var(--brand-warm-bg); 
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 { 
+            font-family: "Noto Serif SC", "Source Han Serif CN", "Songti SC", serif; 
+            font-weight: 700;
+        }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* --- 2. 导航栏 --- */
+        nav {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; }
+        .logo-box { 
+            width: 32px; height: 32px; background: var(--brand-orange); 
+            border-radius: 8px; color: white; display: flex; 
+            align-items: center; justify-content: center; font-weight: bold; 
+        }
+        .nav-links { display: none; gap: 2rem; font-size: 0.875rem; font-weight: 500; }
+        @media (min-width: 1024px) { .nav-links { display: flex; } }
+        .nav-links a { color: #6b7280; text-decoration: none; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--brand-orange); }
+        .btn-support {
+            background: var(--brand-orange); color: white; border: none;
+            padding: 0.5rem 1.25rem; border-radius: 999px;
+            font-size: 0.75rem; font-weight: bold; cursor: pointer;
+        }
+
+        /* --- 3. 页面头部 --- */
+        .page-header { background: var(--white); padding: 4rem 0; text-align: center; border-bottom: 1px solid #f9fafb; }
+        .page-header h1 { font-size: 2.25rem; color: var(--text-dark); margin-bottom: 1rem; }
+        .page-header p { 
+            font-size: 0.875rem; color: var(--text-gray); 
+            text-transform: uppercase; letter-spacing: 0.2em; 
+        }
+        .title-line { width: 40px; height: 4px; background: var(--brand-orange); margin: 1.5rem auto 0; border-radius: 999px; }
+
+        /* --- 4. 组织架构树 --- */
+        .structure-section { padding: 5rem 0; display: flex; flex-direction: column; align-items: center; }
+        
+        /* 理事会 */
+        .board-card {
+            background: #111827; color: white; padding: 1.5rem; border-radius: 1rem;
+            text-align: center; width: 100%; max-width: 320px; margin-bottom: 4rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .board-card p { font-size: 10px; opacity: 0.6; text-transform: uppercase; margin-top: 0.25rem; letter-spacing: 0.1em; }
+
+        /* 连线与中间层 */
+        .middle-layer { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 4rem; }
+        .vertical-line { position: absolute; top: -4rem; left: 50%; width: 1px; height: 4rem; background: #e5e7eb; }
+        
+        .layer-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        @media (min-width: 768px) { .layer-grid { grid-template-columns: 1fr 1fr; gap: 8rem; } }
+
+        .sub-card {
+            background: var(--white); border: 2px solid #fff7ed; padding: 1.5rem; border-radius: 1rem;
+            width: 256px; text-align: center; position: relative;
+        }
+        .sub-card h3 { color: var(--brand-orange); }
+        .sub-card p { font-size: 10px; color: var(--text-gray); text-transform: uppercase; margin-top: 0.25rem; }
+        
+        /* 秘书处特有的横向连线 */
+        @media (min-width: 768px) {
+            .line-h { position: absolute; width: 8rem; height: 1px; background: #e5e7eb; left: -8rem; top: 50%; }
+        }
+
+        /* 部门网格 */
+        .dept-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; width: 100%; }
+        @media (min-width: 768px) { .dept-grid { grid-template-columns: repeat(4, 1fr); } }
+        
+        .dept-item {
+            background: var(--white); padding: 1.25rem; border-radius: 0.75rem;
+            border: 1px solid var(--border-color); text-align: center;
+            transition: 0.3s ease; cursor: default;
+        }
+        .dept-item: { border-color: var(--brand-orange); transform: translateY(-3px); }
+        .dept-icon { display: block; font-size: 1.25rem; margin-bottom: 0.5rem; filter: grayscale(1); transition: 0.3s; }
+        .dept-item: .dept-icon { filter: grayscale(0); }
+        .dept-item span:last-child { font-size: 0.75rem; font-weight: bold; color: #374151; }
+
+        /* --- 5. 管理人员列表 --- */
+        .management-section { background: var(--white); padding: 6rem 0; }
+        .mgmt-header { margin-bottom: 4rem; text-align: center;}
+        .mgmt-header h2 { font-size: 1.5rem; }
+        .mgmt-header p { font-size: 0.75rem; color: var(--text-gray); margin-top: 0.5rem; }
+
+        .person-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        @media (min-width: 768px) { .person-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .person-card { group: hover; }
+        .person-img {
+            aspect-ratio: 3/4; background: #f3f4f6; border-radius: 1.5rem; 
+            margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center;
+            color: #d1d5db; font-size: 0.75rem; overflow: hidden;
+        }
+        .person-name { font-size: 1.125rem; color: var(--text-dark); transition: 0.3s; }
+        .person-card:hover .person-name { color: var(--brand-orange); }
+        .person-title { font-size: 0.75rem; font-weight: bold; color: var(--brand-orange); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
+        .person-bio { font-size: 0.75rem; color: #6b7280; margin-top: 1rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* --- 6. 页脚 --- */
+        footer { background: var(--white); border-top: 1px solid var(--border-color); padding: 5rem 0 3rem; }
+        .footer-flex { display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; }
+        @media (min-width: 768px) { .footer-flex { flex-direction: row; align-items: center; } }
+        
+        .footer-info .brand { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .footer-info .brand span { font-size: 0.875rem; font-weight: bold; }
+        .footer-info p { font-size: 10px; color: var(--text-gray); line-height: 2; }
+        
+        .footer-links { text-align: left; }
+        @media (min-width: 768px) { .footer-links { text-align: right; } }
+        .footer-links .copy { font-size: 10px; color: #d1d5db; text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 0.5rem; }
+        .links-group { display: flex; gap: 1rem; font-size: 10px; font-weight: bold; font-style: italic; justify-content: flex-start; }
+        @media (min-width: 768px) { .links-group { justify-content: flex-end; } }
+        .links-group a { color: var(--brand-orange); text-decoration: none; }
+    </style>
+    
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="logo-circle"><img src="图片\胤泽logo第二套.png"></img></div>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html" class="active">首页</a>
+                <div class="dropdown">
+                   <a href="program.html"> <span>项目信息 ▾</span></a>
+                    <div class="dropdown-menu">
+                       <a href="program1.html"> <div class="dropdown-item">
+                            <span class="title">新苗公益</span>
+                           
+                        </div></a>
+                        <a href="program2.html"> <div class="dropdown-item">
+                            <span class="title">冬日暖阳</span>
+                            
+                        </div></a>
+                        <a href="program3.html"> <div class="dropdown-item">
+                            <span class="title">校长培训</span>
+                            
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                  <a href="info.html"><span>信息公开 ▾</span></a>  
+                    <div class="dropdown-menu">
+                      <a href="info1system.html"> <div class="dropdown-item">
+                            <span class="title">制度章程</span>
+                        </div></a> 
+                        <a href="info2 structure.html"><div class="dropdown-item">
+                            <span class="title">组织架构</span>
+                           
+                        </div></a>
+                        <a href="info3 finance.html"> <div class="dropdown-item">
+                            <span class="title">财务信息</span>
+                        </div></a>
+                        <a href="info4 news.html"> <div class="dropdown-item">
+                            <span class="title">资讯动态</span>
+                        </div></a>
+                        <a href="info5 party.html"><div class="dropdown-item">
+                            <span class="title">党建活动</span>    
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                   <a href="join us.html"><span>加入我们 ▾</span></a> 
+                    <div class="dropdown-menu">
+                        <a href="join us1 kindergarden.html"><div class="dropdown-item">
+                            <span class="title">园所招募</span>
+                        </div></a>
+                        <a href="join us2 volunteer.html"><div class="dropdown-item">
+                            <span class="title">志愿者招募</span>
+                        </div></a>
+                       <a href="join us3 cooperation.html"><div class="dropdown-item">
+                            <span class="title">合作</span></a> 
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+    </nav>
+
+
+    <section class="page-header">
+        <div class="container">
+            <h1>组织架构</h1>
+            <p>Organizational Structure</p>
+            <div class="title-line"></div>
+        </div>
+    </section>
+
+    <section class="container structure-section">
+        <div class="board-card">
+            <h3>理事会</h3>
+            <p></p>
+        </div>
+
+        <div class="middle-layer">
+            <div class="vertical-line"></div>
+            <div class="layer-grid">
+                <div class="sub-card">
+                    <h3>理事长办公会</h3>
+                    <p></p>
+                </div>
+                <div class="sub-card">
+                    <div class="line-h"></div>
+                    <h3>监事</h3>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dept-grid">
+            <div class="dept-item">
+                <span class="dept-icon">📢</span>
+                <span>项目部</span>
+            </div>
+            <div class="dept-item">
+                <span class="dept-icon">📢</span>
+                <span>综合部</span>
+            </div>
+        
+           
+        </div>
+    </section>
+
+    <section class="management-section">
+        <div class="container">
+            <div class="mgmt-header">
+                <h2>部门职责</h2>
+                <p>依法公示基金会各部门职责</p>
+            </div>
+
+            <div class="person-grid">
+                <div class="person-card">
+                
+                    <h4 class="person-name">理事长办公室</h4>
+                 
+                    <p class="person-bio">负责落实理事会决议、审议计划与预算及日常运营决策。</p>
+                </div>
+
+                <div class="person-card">
+                   
+                    <h4 class="person-name">项目部</h4>
+            
+                    <p class="person-bio">负责项目日常运营并完成理事长办公会交办的其它任务。</p>
+                </div>
+
+                <div class="person-card">
+                 
+                    <h4 class="person-name">综合部</h4>
+                 
+                    <p class="person-bio">负责人事、财务、档案、信息公开、印章、重大事项报告，确保组织运作合规透明。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h4>联系我们</h4>
+                <ul class="footer-list">
+                    <li>📍 北京市西城区金融大街9号B座金融街中心12层1206单元</li>
+                    <li>📞 18511162638</li>
+                    <li>✉️ bjyzgyjjh@163.com</li>
+                </ul>
+            </div>
+            <div>
+                <h4>快捷导航</h4>
+                <ul class="footer-list">
+                    <li>首页</li>
+                    <li>信息公开</li>
+                    <li>加入我们</li>
+            
+                </ul>
+            </div>
+            <div>
+                <h4>关注动态</h4>
+                <div class="qr-placeholder"></div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

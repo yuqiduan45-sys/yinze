@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财务公开 - 某某公益基金会</title>
+    <style>
+        /* --- 本地化基础样式 --- */
+        :root {
+            --brand-orange: #f39200;
+            --brand-orange-light: #fdf5e6;
+            --bg-warm: #fdfaf5;
+            --text-main: #333333;
+            --text-gray: #888888;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif; 
+            background-color: var(--bg-warm); 
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- 导航栏 --- */
+        nav { 
+            background: rgba(255, 255, 255, 0.95); 
+            border-bottom: 1px solid #eee; 
+            position: sticky; top: 0; z-index: 100;
+            padding: 15px 0;
+        }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
+        .logo-icon { width: 30px; height: 30px; background: var(--brand-orange); border-radius: 6px; }
+        .nav-links { display: flex; gap: 30px; font-size: 0.9rem; }
+        .nav-links a { text-decoration: none; color: var(--text-gray); transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--brand-orange); }
+
+        /* --- 页头 --- */
+        header { padding: 60px 0; text-align: center; background: var(--white); border-bottom: 1px solid #f0f0f0; }
+        h1 { font-size: 2.2rem; margin-bottom: 10px; color: #111; }
+        .sub-title { color: var(--text-gray); letter-spacing: 4px; font-size: 0.8rem; text-transform: uppercase; }
+        .line { width: 40px; height: 3px; background: var(--brand-orange); margin: 20px auto; border-radius: 2px; }
+
+        /* --- 数据卡片 --- */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: -40px; }
+        .card { background: var(--white); padding: 30px; border-radius: 24px; shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #f5f5f5; }
+        .card-dark { background: #1a1a1a; color: var(--white); }
+        .label { font-size: 0.75rem; color: var(--text-gray); font-weight: bold; margin-bottom: 15px; display: block; }
+        .amount { font-size: 2rem; font-weight: 700; margin-bottom: 25px; display: block; }
+        .amount.orange { color: var(--brand-orange); }
+
+        /* --- 纯 CSS 图表 --- */
+        .chart-item { margin-bottom: 15px; }
+        .chart-info { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 6px; }
+        .bar-bg { width: 100%; height: 6px; background: #f0f0f0; border-radius: 10px; overflow: hidden; }
+        .card-dark .bar-bg { background: rgba(255,255,255,0.1); }
+        .bar-fill { height: 100%; background: var(--brand-orange); border-radius: 10px; transition: 1s; }
+
+        /* --- 报告列表 --- */
+        .section-title { margin: 60px 0 30px; font-size: 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; }
+        .report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .report-item { 
+            background: var(--white); padding: 25px; border-radius: 20px; 
+            border: 1px solid #f0f0f0; transition: 0.3s; cursor: pointer;
+            text-decoration: none; color: inherit;
+        }
+        .report-item:hover { border-color: var(--brand-orange); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(243,146,0,0.1); }
+        .file-icon { font-size: 1.5rem; margin-bottom: 15px; display: block; }
+        .file-name { font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; display: block; }
+        .file-meta { font-size: 0.7rem; color: var(--text-gray); }
+
+        /* --- 响应式 --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="logo-circle"><img src="图片\胤泽logo第二套.png"></img></div>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html" class="active">首页</a>
+                <div class="dropdown">
+                   <a href="program.html"> <span>项目信息 ▾</span></a>
+                    <div class="dropdown-menu">
+                       <a href="program1.html"> <div class="dropdown-item">
+                            <span class="title">新苗公益</span>
+                            
+                        </div></a>
+                        <a href="program2.html"> <div class="dropdown-item">
+                            <span class="title">冬日暖阳</span>
+                            
+                        </div></a>
+                        <a href="program3.html"> <div class="dropdown-item">
+                            <span class="title">校长培训</span>
+                            
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                  <a href="info.html"><span>信息公开 ▾</span></a>  
+                    <div class="dropdown-menu">
+                      <a href="info1system.html"> <div class="dropdown-item">
+                            <span class="title">制度章程</span>
+                        </div></a> 
+                        <a href="info2 structure.html"><div class="dropdown-item">
+                            <span class="title">组织架构</span>
+                           
+                        </div></a>
+                        <a href="info3 finance.html"> <div class="dropdown-item">
+                            <span class="title">财务信息</span>
+                        </div></a>
+                        <a href="info4 news.html"> <div class="dropdown-item">
+                            <span class="title">资讯动态</span>
+                        </div></a>
+                        <a href="info5 party.html"><div class="dropdown-item">
+                            <span class="title">党建活动</span>    
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                   <a href="join us.html"><span>加入我们 ▾</span></a> 
+                    <div class="dropdown-menu">
+                        <a href="join us1 kindergarden.html"><div class="dropdown-item">
+                            <span class="title">园所招募</span>
+                        </div></a>
+                        <a href="join us2 volunteer.html"><div class="dropdown-item">
+                            <span class="title">志愿者招募</span>
+                        </div></a>
+                       <a href="join us3 cooperation.html"><div class="dropdown-item">
+                            <span class="title">合作</span></a> 
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+    </nav>
+
+
+    <header>
+        <div class="container">
+            <span class="sub-title">Financial Transparency</span>
+            <h1>财务公开</h1>
+            <div class="line"></div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-bottom: 100px;">
+        
+        <div class="stats-grid">
+            <div class="card">
+                <span class="label">累计收入 (CNY)</span>
+                <span class="amount">¥ 14,506,848</span>
+                <div class="chart-item">
+                    <div class="chart-info"><span>社会捐赠</span><span>90%</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 90%;"></div></div>
+                </div>
+                <div class="chart-item">
+                    <div class="chart-info"><span>其他</span><span>10%</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 10%; background: #ccc;"></div></div>
+                </div>
+            </div>
+
+            <div class="card card-dark">
+                <span class="label">累计支出 (CNY)</span>
+                <span class="amount orange">¥ 6,729,294</span>
+                <div class="chart-item">
+                    <div class="chart-info"><span>公益项目支出</span><span>95%</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 95%;"></div></div>
+                </div>
+                <div class="chart-item">
+                    <div class="chart-info"><span>行政/办公成本</span><span>5%</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 5%; background: rgba(255,255,255,0.2);"></div></div>
+                </div>
+            </div>
+
+            <div class="card" style="background: var(--brand-orange-light); border-color: #f3e5cf;">
+                <span class="label" style="color: var(--brand-orange);">资产增值与审计</span>
+                <span class="amount" style="font-size: 1.5rem;">AAA 级基金会</span>
+                <p style="font-size: 0.75rem; color: #a67c52; margin-top: 20px;">
+                    我们的财务报表经由第三方会计师事务所审计，连续 8 年获得“无保留意见”审计报告。
+                </p>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <h3>年度审计报告</h3>
+          
+        </div>
+
+        <div class="report-grid">
+            <a href="文件\3.14北京胤泽公益基金会-2024年审报告-已赋码.pdf" class="report-item">
+                
+                <span class="file-icon">📄</span>
+                <span class="file-name">2025 年度审计报告</span>
+                
+            </a>
+            <a href="文件\3.14北京胤泽公益基金会-2024年审报告-已赋码.pdf" class="report-item">
+                <span class="file-icon">📊</span>
+                <span class="file-name">2024 年度审计报告</span>
+               
+            </a>
+            <a href="#" class="report-item">
+                <span class="file-icon">📜</span>
+                <span class="file-name">2023 年度审计报告</span>
+               
+            </a>
+            <a href="#" class="report-item">
+                <span class="file-icon">📄</span>
+                <span class="file-name">2022 年度审计报告</span>
+                
+            </a>
+        </div>
+
+       
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h4>联系我们</h4>
+                <ul class="footer-list">
+                    <li>📍 北京市西城区金融大街9号B座金融街中心12层1206单元</li>
+                    <li>📞 18511162638</li>
+                    <li>✉️ bjyzgyjjh@163.com</li>
+                </ul>
+            </div>
+            <div>
+                <h4>快捷导航</h4>
+                <ul class="footer-list">
+                    <li>首页</li>
+                    <li>信息公开</li>
+                    <li>加入我们</li>
+            
+                </ul>
+            </div>
+            <div>
+                <h4>关注动态</h4>
+                <div class="qr-placeholder"></div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

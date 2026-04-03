@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合作伙伴 - 某某公益基金会</title>
+    <style>
+        /* --- 本地化基础变量 --- */
+        :root {
+            --brand-orange: #f39200;
+            --brand-dark: #2c3e50;
+            --bg-gray: #f8f9fa;
+            --white: #ffffff;
+            --text-main: #333;
+            --text-light: #95a5a6;
+            --border: #edf2f7;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: "PingFang SC", "Hiragino Sans GB", sans-serif; 
+            background-color: var(--white); 
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
+
+        /* --- 导航 --- */
+        nav { border-bottom: 1px solid var(--border); padding: 20px 0; }
+        .nav-flex1 { display: flex; justify-content: space-between; align-items: center; }
+        .logo1 { font-weight: bold; font-size: 1.2rem; color: var(--brand-dark); }
+        .nav-links1 a { text-decoration: none; color: var(--text-light); margin-left: 30px; font-size: 0.9rem; }
+
+        /* --- 头部 Hero --- */
+        .page-header { 
+            background-color: var(--bg-gray); 
+            padding: 100px 0; 
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .page-header h1 { font-size: 2.5rem; color: var(--brand-dark); margin-bottom: 15px; }
+        .page-header p { color: var(--text-light); max-width: 600px; margin: 0 auto; }
+
+        /* --- 合作优势/领域 --- */
+        .section-padding { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 1.8rem; margin-bottom: 10px; }
+        .section-title .line { width: 50px; height: 3px; background: var(--brand-orange); margin: 0 auto; }
+
+        .feature-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 30px; 
+        }
+        .feature-item { 
+            padding: 40px; 
+            background: var(--bg-gray); 
+            border-radius: 20px; 
+            text-align: center;
+            transition: 0.3s;
+        }
+        .feature-item:hover { background: var(--white); box-shadow: 0 20px 40px rgba(0,0,0,0.05); transform: translateY(-5px); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
+        .feature-item h3 { font-size: 1.1rem; margin-bottom: 10px; }
+        .feature-item p { font-size: 0.85rem; color: var(--text-light); }
+
+        /* --- 合作伙伴 Logo 网格 (离线占位设计) --- */
+        .logo-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px; 
+            margin-top: 40px;
+        }
+        .logo-box { 
+            height: 100px; 
+            border: 1px solid var(--border); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            filter: grayscale(1); 
+            opacity: 0.6;
+            transition: 0.3s;
+            border-radius: 12px;
+            font-weight: bold;
+            color: #ccc;
+            font-size: 0.8rem;
+        }
+        .logo-box:hover { filter: grayscale(0); opacity: 1; border-color: var(--brand-orange); color: var(--brand-orange); }
+
+        /* --- 合作流程 --- */
+        .flow-container { background: var(--brand-dark); color: var(--white); border-radius: 30px; padding: 60px 40px; }
+        .flow-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 40px; }
+        .flow-step { position: relative; }
+        .step-num { font-size: 3rem; font-weight: bold; opacity: 0.2; line-height: 1; }
+        .step-content { position: relative; top: -20px; padding-left: 10px; }
+        .step-content h4 { font-size: 1rem; margin-bottom: 10px; color: var(--brand-orange); }
+        .step-content p { font-size: 0.75rem; opacity: 0.7; }
+
+        /* --- 响应式 --- */
+        @media (max-width: 768px) {
+            .logo-grid, .flow-grid { grid-template-columns: repeat(2, 1fr); }
+            .page-header h1 { font-size: 2rem; }
+        }
+    </style>
+    
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="logo-circle"><img src="图片\胤泽logo第二套.png"></img></div>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html" class="active">首页</a>
+                <div class="dropdown">
+                   <a href="program.html"> <span>项目信息 ▾</span></a>
+                    <div class="dropdown-menu">
+                       <a href="program1.html"> <div class="dropdown-item">
+                            <span class="title">新苗公益</span>
+                            <div class="subtitle">介绍 · 活动 · 动态</div>
+                        </div></a>
+                        <a href="program2.html"> <div class="dropdown-item">
+                            <span class="title">冬日暖阳</span>
+                            <div class="subtitle">介绍 · 活动 · 动态</div>
+                        </div></a>
+                        <a href="program3.html"> <div class="dropdown-item">
+                            <span class="title">校长培训</span>
+                            <div class="subtitle">介绍 · 活动 · 动态</div>
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                  <a href="info.html"><span>信息公开 ▾</span></a>  
+                    <div class="dropdown-menu">
+                      <a href="info1system.html"> <div class="dropdown-item">
+                            <span class="title">制度章程</span>
+                        </div></a> 
+                        <a href="info2 structure.html"><div class="dropdown-item">
+                            <span class="title">组织架构</span>
+                           
+                        </div></a>
+                        <a href="info3 finance.html"> <div class="dropdown-item">
+                            <span class="title">财务信息</span>
+                        </div></a>
+                        <a href="info4 news.html"> <div class="dropdown-item">
+                            <span class="title">资讯动态</span>
+                        </div></a>
+                        <a href="info5 party.html"><div class="dropdown-item">
+                            <span class="title">党建活动</span>    
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                   <a href="join us.html"><span>加入我们 ▾</span></a> 
+                    <div class="dropdown-menu">
+                        <a href="join us1 kindergarden.html"><div class="dropdown-item">
+                            <span class="title">园所招募</span>
+                        </div></a>
+                        <a href="join us2 volunteer.html"><div class="dropdown-item">
+                            <span class="title">志愿者招募</span>
+                        </div></a>
+                       <a href="join us3 cooperation.html"><div class="dropdown-item">
+                            <span class="title">合作</span></a> 
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+    </nav>
+    <header class="page-header">
+        <div class="container">
+            <h1>携手并进，共创价值</h1>
+            <p>我们寻找志同道合的伙伴，通过跨界协作，解决最迫切的社会教育问题。</p>
+        </div>
+    </header>
+
+    <main>
+        <section class="container section-padding">
+            <div class="section-title">
+                <h2>合作领域</h2>
+                <div class="line"></div>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">🏢</span>
+                    <h3>企业社会责任</h3>
+                    <p>定制化公益项目开发，助力企业实现社会责任目标与品牌传播。</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎓</span>
+                    <h3>学术科研合作</h3>
+                    <p>与高校及研究机构合作，进行公益模式创新与教育成效评估。</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📢</span>
+                    <h3>媒体倡导合作</h3>
+                    <p>联合媒体力量，共同传播公益理念，提升社会对乡村教育的关注。</p>
+                </div>
+            </div>
+        </section>
+
+        
+
+        <section class="container section-padding">
+            <div class="flow-container">
+                <div class="section-title">
+                    <h2 style="color: #fff;">合作流程</h2>
+                    <div class="line"></div>
+                </div>
+                
+                <div class="flow-grid">
+                    <div class="flow-step">
+                        <div class="step-num">01</div>
+                        <div class="step-content">
+                            <h4>意向沟通</h4>
+                            <p>初步了解双方需求，明确合作意愿与方向。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">02</div>
+                        <div class="step-content">
+                            <h4>方案策划</h4>
+                            <p>定制化合作方案设计，确定项目里程碑。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">03</div>
+                        <div class="step-content">
+                            <h4>协议签署</h4>
+                            <p>签署正式合作协议，明确权利与义务。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">04</div>
+                        <div class="step-content">
+                            <h4>落地执行</h4>
+                            <p>专业团队全程跟进，定期反馈项目进度。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container section-padding" style="text-align: center;">
+            <div style="background: var(--bg-gray); padding: 50px; border-radius: 30px;">
+                <h3 style="margin-bottom: 20px;">开启合作洽谈</h3>
+                <p style="color: var(--text-light); margin-bottom: 30px;">我们期待与您探讨更多公益可能。</p>
+                <div style="font-weight: bold; font-size: 1.1rem;">
+                    📧 bjyzgyjjh@163.com <br>
+                    📞 18511162638 
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h4>联系我们</h4>
+                <ul class="footer-list">
+                    <li>📍 北京市西城区金融大街9号B座金融街中心12层1206单元</li>
+                    <li>📞 18511162638</li>
+                    <li>✉️ bjyzgyjjh@163.com</li>
+                </ul>
+            </div>
+            <div>
+                <h4>快捷导航</h4>
+                <ul class="footer-list">
+                    <li>首页</li>
+                    <li>信息公开</li>
+                    <li>加入我们</li>
+            
+                </ul>
+            </div>
+            <div>
+                <h4>关注动态</h4>
+                <div class="qr-placeholder"></div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

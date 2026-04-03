@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目信息 - 新苗公益</title>
+    <style>
+        /* --- 1. 基础变量与重置 --- */
+        :root {
+            --brand-orange: #f39200;
+            --brand-green: #4ade80; 
+            --brand-warm-bg: #fdfaf5;
+            --text-main: #374151;
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --text-light: #9ca3af;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; } /* 实现平滑滚动 */
+
+        body { 
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; 
+            background-color: var(--brand-warm-bg); 
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 { 
+            font-family: "Noto Serif SC", "Source Han Serif CN", "Songti SC", serif; 
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+
+        /* --- 2. 导航栏 --- */
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #f3f4f6;
+            padding: 0.75rem 0;
+        }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; }
+        .logo-icon { 
+            width: 32px; height: 32px; background: var(--brand-orange); 
+            border-radius: 8px; color: white; display: flex; 
+            align-items: center; justify-content: center; font-weight: bold; 
+        }
+        .nav-links { display: none; gap: 2rem; font-size: 0.875rem; font-weight: 500; }
+        @media (min-width: 1024px) { .nav-links { display: flex; } }
+        .nav-links a:hover { color: var(--brand-orange); }
+        .active-link { color: var(--brand-orange); }
+
+        .btn-donate {
+            background: var(--brand-orange); color: white; border: none;
+            padding: 0.5rem 1.25rem; border-radius: 999px;
+            font-size: 0.75rem; font-weight: bold; cursor: pointer;
+        }
+
+        /* --- 3. Banner 区域 --- */
+        .banner { 
+            position: relative; height: 320px; overflow: hidden; 
+            background: #000;
+        }
+        .banner img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+        .banner-content {
+            position: absolute; inset: 0; display: flex; align-items: center;
+        }
+        .banner-tag {
+            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px);
+            padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.75rem;
+            color: white; display: inline-block; margin-bottom: 1rem;
+        }
+        .banner h1 { color: white; font-size: 3rem; margin-bottom: 1rem; }
+        .banner p { color: rgba(255, 255, 255, 0.8); max-width: 600px; font-size: 0.875rem; }
+
+        /* --- 4. 主内容布局 --- */
+        .main-layout { 
+            display: grid; gap: 3rem; padding: 4rem 0; 
+        }
+        @media (min-width: 1024px) {
+            .main-layout { grid-template-columns: 1fr 3fr; }
+        }
+
+        /* 侧边栏 */
+        .sidebar { position: sticky; top: 6rem; height: fit-content; }
+        .sidebar-title { 
+            font-size: 0.75rem; color: var(--text-light); 
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; 
+        }
+        .sidebar-menu { list-style: none; margin-bottom: 2rem; }
+        .sidebar-menu li { margin-bottom: 1rem; }
+        .sidebar-link { 
+            display: block; font-size: 0.875rem; color: var(--text-gray); 
+            padding: 0.25rem 0; border-right: 3px solid transparent;
+        }
+        .sidebar-link:hover { color: var(--brand-orange); }
+        .sidebar-link.active { 
+            color: var(--brand-orange); font-weight: bold; 
+            border-right-color: var(--brand-orange); 
+        }
+
+        /* 侧边支持卡片 */
+        .support-card {
+            background: #fffaf0; padding: 1.5rem; border-radius: 1.5rem;
+            border: 1px solid #ffedd5;
+        }
+        .support-card h5 { color: var(--brand-orange); font-size: 0.875rem; margin-bottom: 0.5rem; }
+        .support-card p { font-size: 0.75rem; color: var(--text-gray); margin-bottom: 1rem; }
+        .btn-action {
+            width: 100%; background: var(--brand-orange); color: white; border: none;
+            padding: 0.75rem; border-radius: 0.75rem; font-size: 0.75rem; font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 文章主体 */
+        article section { margin-bottom: 6rem; scroll-margin-top: 6rem; }
+        .section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+        .line { width: 2rem; height: 4px; background: var(--brand-orange); border-radius: 99px; }
+        .section-header h2 { font-size: 1.5rem; }
+
+        /* 介绍卡片 */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+        .info-card { 
+            background: white; padding: 1.5rem; border-radius: 1rem; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #f9fafb;
+        }
+        .info-card h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+        .info-card p { font-size: 0.75rem; color: var(--text-gray); }
+
+        /* 活动图文 */
+        .activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .activity-item { 
+            position: relative; height: 260px; border-radius: 1.5rem; 
+            overflow: hidden; cursor: pointer;
+        }
+        .activity-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .activity-item: img { transform: scale(1.1); }
+        .activity-overlay {
+            position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; color: white;
+        }
+        .activity-overlay h4 { color: white; font-size: 1rem; }
+        .activity-overlay p { font-size: 0.75rem; opacity: 0.7; }
+
+        /* 动态列表 */
+        .news-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: white; padding: 1.5rem; border-radius: 1.5rem;
+            border: 1px solid #f9fafb; margin-bottom: 1rem; transition: var(--transition);
+        }
+        .news-item:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.05); transform: translateY(-2px); }
+        .news-date { font-size: 0.65rem; color: var(--brand-orange); font-weight: bold; letter-spacing: 0.1em; }
+        .news-title { font-size: 0.875rem; font-weight: bold; margin-top: 0.25rem; }
+        .arrow { color: #d1d5db; font-size: 1.25rem; }
+
+
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .info-grid, .activity-grid { grid-template-columns: 1fr; }
+            .banner h1 { font-size: 2rem; }
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="logo-circle"><img src="图片\胤泽logo第二套.png"></img></div>
+                <span class="logo-text"></span>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html" class="active">首页</a>
+                <div class="dropdown">
+                   <a href="program.html"> <span>项目信息 ▾</span></a>
+                    <div class="dropdown-menu">
+                       <a href="program1.html"> <div class="dropdown-item">
+                            <span class="title">新苗公益</span>
+                            
+                        </div></a>
+                        <a href="program2.html"> <div class="dropdown-item">
+                            <span class="title">冬日暖阳</span>
+                            
+                        </div></a>
+                        <a href="program3.html"> <div class="dropdown-item">
+                            <span class="title">校长培训</span>
+                            
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                  <a href="info.html"><span>信息公开 ▾</span></a>  
+                    <div class="dropdown-menu">
+                      <a href="info1system.html"> <div class="dropdown-item">
+                            <span class="title">制度章程</span>
+                        </div></a> 
+                        <a href="info2 structure.html"><div class="dropdown-item">
+                            <span class="title">组织架构</span>
+                           
+                        </div></a>
+                        <a href="info3 finance.html"> <div class="dropdown-item">
+                            <span class="title">财务信息</span>
+                        </div></a>
+                        <a href="info4 news.html"> <div class="dropdown-item">
+                            <span class="title">资讯动态</span>
+                        </div></a>
+                        <a href="info5 party.html"><div class="dropdown-item">
+                            <span class="title">党建活动</span>    
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                   <a href="join us.html"><span>加入我们 ▾</span></a> 
+                    <div class="dropdown-menu">
+                        <a href="join us1 kindergarden.html"><div class="dropdown-item">
+                            <span class="title">园所招募</span>
+                        </div></a>
+                        <a href="join us2 volunteer.html"><div class="dropdown-item">
+                            <span class="title">志愿者招募</span>
+                        </div></a>
+                       <a href="join us3 cooperation.html"><div class="dropdown-item">
+                            <span class="title">合作</span></a> 
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+    </nav>
+    <section class="banner">
+        <img src="图片\正泽学校培训\20181121162024.jpg" alt="新苗公益">
+        <div class="banner-content">
+            <div class="container">
+                <span class="banner-tag">核心项目 </span>
+                <h1>校长培训</h1>
+                
+            </div>
+        </div>
+    </section>
+
+    <main class="container main-layout">
+        <aside class="sidebar">
+            <h4 class="sidebar-title">校长培训</h4>
+            <ul class="sidebar-menu">
+                <li><a href="#intro" class="sidebar-link active">项目介绍</a></li>
+                <li><a href="#activities" class="sidebar-link">理念活动</a></li>
+                <li><a href="#news" class="sidebar-link">项目动态</a></li>
+            </ul>
+
+           
+        </aside>
+
+        <article>
+            <section id="intro">
+                <div class="section-header">
+                    <span class="line"></span>
+                    <h2>项目介绍</h2>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-gray);">
+                    校长培训项目启动于 2018 年，旨在旨在帮助贫困地区校长及管理干部与先进的现代教育理念接轨，推动义务教育均衡发展。
+                </p>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>参训校长</h4>
+                        <p>1000+校长参培</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>培训届数</h4>
+                        <p>已举办3届</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="activities">
+                <div class="section-header">
+                    <span class="line"></span>
+                    <h2>理念活动</h2>
+                </div>
+                <div class="activity-grid">
+                    <div class="activity-item">
+                        <img src="图片\正泽学校培训\webwxgetmsgimg4.jpg">
+                        <div class="activity-overlay">
+                            <h4>校长教研</h4>
+                            <p>校长参与评课教研，提升教学能力</p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <img src="图片\正泽学校培训\mmexport1601024519017_resized_20200925_084212009.jpg">
+                        <div class="activity-overlay">
+                            <h4>课程观摩</h4>
+                            <p>亲身感受一线课堂</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="news">
+                <div class="section-header">
+                    <span class="line"></span>
+                    <h2>项目动态</h2>
+                </div>
+                <a href="#" class="news-item">
+                    <div>
+                        <span class="news-date">2026.03.01</span>
+                        <div class="news-title">新苗公益入选年度“教育影响力”案例</div>
+                    </div>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="#" class="news-item">
+                    <div>
+                        <span class="news-date">2026.02.15</span>
+                        <div class="news-title">春季教具捐赠计划正式启动，覆盖甘肃 5 所小学</div>
+                    </div>
+                    <span class="arrow">→</span>
+                </a>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h4>联系我们</h4>
+                <ul class="footer-list">
+                    <li>📍 北京市西城区金融大街9号B座金融街中心12层1206单元</li>
+                    <li>📞 18511162638</li>
+                    <li>✉️ bjyzgyjjh@163.com</li>
+                </ul>
+            </div>
+            <div>
+                <h4>快捷导航</h4>
+                <ul class="footer-list">
+                    <li>首页</li>
+                    <li>信息公开</li>
+                    <li>加入我们</li>
+            
+                </ul>
+            </div>
+            <div>
+                <h4>关注动态</h4>
+                <div class="qr-placeholder"></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 简单的脚本：点击侧边栏链接后更新激活状态
+        const links = document.querySelectorAll('.sidebar-link');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                links.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

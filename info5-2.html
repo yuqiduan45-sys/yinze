@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>党建动态详情 - 某某公益基金会</title>
+    <style>
+        /* --- 本地化基础变量 --- */
+        :root {
+            --party-red: #c62828;
+            --party-red-light: #fff5f5;
+            --party-gold: #f9a825;
+            --text-dark: #1a1a1a;
+            --text-main: #3c3c3c;
+            --text-light: #888888;
+            --bg-body: #fdfaf5;
+            --white: #ffffff;
+            --border: #eeeeee;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: "Source Han Serif SC", "SimSun", serif; /* 采用更正式的宋体系列 */
+            background-color: var(--bg-body); 
+            color: var(--text-main);
+            line-height: 1.9;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
+        .article-wrapper { max-width: 850px; margin: 0 auto; background: var(--white); border-top: 4px solid var(--party-red); border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 60px; }
+        .article-content-padding { padding: 60px 70px; }
+
+        /* --- 导航 --- */
+        nav { background: var(--white); border-bottom: 2px solid var(--party-red); padding: 15px 0; }
+        .nav-flex1 { display: flex; justify-content: space-between; align-items: center; }
+        .logo1 { font-weight: bold; font-size: 1.1rem; color: var(--party-red); display: flex; align-items: center; gap: 8px; }
+        .logo-box1 { width: 24px; height: 24px; background: var(--party-red); border-radius: 3px; display: flex; align-items: center; justify-content: center; color: var(--party-gold); font-size: 0.8rem; }
+        .nav-links1 a { text-decoration: none; color: var(--text-light); margin-left: 25px; font-size: 0.9rem; font-weight: bold; }
+
+        /* --- 面包屑 --- */
+        .breadcrumb { padding: 30px 0; font-size: 0.85rem; color: var(--text-light); }
+        .breadcrumb a { text-decoration: none; color: var(--text-light); transition: 0.3s; }
+        .breadcrumb a:hover { color: var(--party-red); }
+
+        /* --- 文章头部 --- */
+        .article-header { text-align: center; margin-bottom: 50px; }
+        .party-tag { display: inline-block; padding: 2px 12px; background: var(--party-red); color: var(--white); border-radius: 2px; font-size: 0.75rem; margin-bottom: 20px; }
+        .article-title { font-size: 2rem; color: var(--text-dark); line-height: 1.4; margin-bottom: 25px; }
+        .article-info { display: flex; justify-content: center; gap: 30px; font-size: 0.85rem; color: var(--text-light); border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+
+        /* --- 活动摘要卡片 --- */
+        .activity-card { 
+            background: var(--party-red-light); border: 1px solid #ffcccc; 
+            padding: 25px; border-radius: 8px; margin-bottom: 40px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9rem;
+        }
+        .info-item b { color: var(--party-red); margin-right: 5px; }
+
+        /* --- 正文样式 --- */
+        .main-text h2 { font-size: 1.4rem; color: var(--party-red); margin: 40px 0 20px; display: flex; align-items: center; }
+        .main-text h2::before { content: ""; width: 8px; height: 24px; background: var(--party-gold); margin-right: 12px; border-radius: 2px; }
+        .main-text p { margin-bottom: 25px; text-align: justify; text-indent: 2em; }
+        .main-text1{text-align: justify;}
+
+        /* 学习语录样式 */
+        .study-quote { 
+            margin: 40px 0; padding: 30px; border: 1px dashed var(--party-red); 
+            background: #fffcfc; border-radius: 4px; position: relative;
+        }
+        .study-quote::after { content: "★"; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: white; padding: 0 10px; color: var(--party-gold); }
+        .quote-text { font-weight: bold; color: var(--text-dark); text-align: center; display: block; }
+
+        /* 离线占位图 */
+        .img-placeholder { 
+            width: 100%; height: 450px; background: #f0f0f0; border: 1px solid #e0e0e0;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #bbb; margin: 30px 0; border-radius: 4px;
+        }
+
+        /* --- 底部翻页 --- */
+        .article-footer { border-top: 1px solid var(--border); margin-top: 50px; padding-top: 30px; display: flex; justify-content: space-between; font-size: 0.85rem; }
+        .article-footer a { text-decoration: none; color: var(--party-red); font-weight: bold; }
+
+        /* --- 响应式 --- */
+        @media (max-width: 768px) {
+            .article-content-padding { padding: 40px 25px; }
+            .article-title { font-size: 1.5rem; }
+            .activity-card { grid-template-columns: 1fr; }
+        }
+    </style>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="logo-circle"><img src="图片\胤泽logo第二套.png"></img></div>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html" class="active">首页</a>
+                <div class="dropdown">
+                   <a href="program.html"> <span>项目信息 ▾</span></a>
+                    <div class="dropdown-menu">
+                       <a href="program1.html"> <div class="dropdown-item">
+                            <span class="title">新苗公益</span>
+                            
+                        </div></a>
+                        <a href="program2.html"> <div class="dropdown-item">
+                            <span class="title">冬日暖阳</span>
+                            
+                        </div></a>
+                        <a href="program3.html"> <div class="dropdown-item">
+                            <span class="title">校长培训</span>
+                            
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                  <a href="info.html"><span>信息公开 ▾</span></a>  
+                    <div class="dropdown-menu">
+                      <a href="info1system.html"> <div class="dropdown-item">
+                            <span class="title">制度章程</span>
+                        </div></a> 
+                        <a href="info2 structure.html"><div class="dropdown-item">
+                            <span class="title">组织架构</span>
+                           
+                        </div></a>
+                        <a href="info3 finance.html"> <div class="dropdown-item">
+                            <span class="title">财务信息</span>
+                        </div></a>
+                        <a href="info4 news.html"> <div class="dropdown-item">
+                            <span class="title">资讯动态</span>
+                        </div></a>
+                        <a href="info5 party.html"><div class="dropdown-item">
+                            <span class="title">党建活动</span>    
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                   <a href="join us.html"><span>加入我们 ▾</span></a> 
+                    <div class="dropdown-menu">
+                        <a href="join us1 kindergarden.html"><div class="dropdown-item">
+                            <span class="title">园所招募</span>
+                        </div></a>
+                        <a href="join us2 volunteer.html"><div class="dropdown-item">
+                            <span class="title">志愿者招募</span>
+                        </div></a>
+                       <a href="join us3 cooperation.html"><div class="dropdown-item">
+                            <span class="title">合作</span></a> 
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+    </nav>
+
+
+    <main class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a> > <a href="info.html">信息公开</a> > <a href="info5 party.html">党建活动</a> > 正文
+        </div>
+
+        <div class="article-wrapper">
+            <div class="article-content-padding">
+                
+                <header class="article-header">
+                    
+                    <h1 class="article-title">党建引领，合规护航</h1>
+                    <div class="article-info">
+                        <span>日期：2026年01月26日</span>
+                        <span>来源：基金会党支部</span>
+                        
+                    </div>
+                </header>
+
+
+                <div class="main-text">
+                    <p>
+                        为加强基金会合规治理能力，助力基金会更好发展，胤泽基金会党支部于2026年1月26日组织了各位理事及党员开展“党建引领，合规护航”合规运营培训，旨在聚焦基金会治理核心，夯实合规基础，为未来基金会运作和社会议题解决打下坚实基础。
+                    </p>
+
+                  
+
+                   
+                    <p>
+                        此次培训老师梁雨拥有13年公益慈善行业财务服务和管理经验的专家，曾为全国上百家公益机构提供财务专项培训。梁雨老师为主要从基金会合规的重要性、法律规范与红线、内控体系与制度、常见违规案例与警示及合规责任几方面展开了介绍。
+                    </p>
+
+                  
+                    <h2>深入学习，明确红线</h2>
+
+                    <p>
+                        理事们深入学习了以下内容：三大法律底线：不超宗旨业务、不谋私利、不违反监管；三大内控要点：制度健全、流程规范、痕迹完整；核心原则：合规贯穿决策、执行、监督全链条，党建引领不缺位。
+                    </p>
+
+                   
+                    <p>
+                        通过此次学习，全体理事深刻认识到慈善事业必须坚持合规管理及党建引领，并明确了基金会运营过程中涉及到的红线与底线，为今后的工作打下了良好的基础。
+                    </p>
+                </div>
+
+             
+
+            </div>
+        </div>
+    </main>
+
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h4>联系我们</h4>
+                <ul class="footer-list">
+                    <li>📍 北京市西城区金融大街9号B座金融街中心12层1206单元</li>
+                    <li>📞 18511162638</li>
+                    <li>✉️ bjyzgyjjh@163.com</li>
+                </ul>
+            </div>
+            <div>
+                <h4>快捷导航</h4>
+                <ul class="footer-list">
+                    <li>首页</li>
+                    <li>信息公开</li>
+                    <li>加入我们</li>
+            
+                </ul>
+            </div>
+            <div>
+                <h4>关注动态</h4>
+                <div class="qr-placeholder"></div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

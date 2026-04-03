@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>园所招募 - 某某公益基金会</title>
+    <style>
+        /* --- 1. 基础变量与重置 --- */
+        :root {
+            --brand-orange: #f39200;
+            --brand-warm-bg: #fdfaf5;
+            --text-main: #374151;
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --text-light: #9ca3af;
+            --white: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; 
+            background-color: var(--brand-warm-bg); 
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 { 
+            font-family: "Noto Serif SC", "Source Han Serif CN", "Songti SC", serif; 
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        button { cursor: pointer; border: none; font-family: inherit; }
+
+        /* --- 2. 导航栏 --- */
+        nav.main-nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #f3f4f6;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; }
+        .logo-icon { 
+            width: 32px; height: 32px; background: var(--brand-orange); 
+            border-radius: 8px; color: white; display: flex; 
+            align-items: center; justify-content: center; font-weight: bold; 
+        }
+        .nav-links { display: none; gap: 2rem; font-size: 0.875rem; font-weight: 500; }
+        @media (min-width: 1024px) { .nav-links { display: flex; } }
+        .nav-links a:hover { color: var(--brand-orange); }
+        .nav-links a.active { color: var(--brand-orange); }
+        
+        .btn-top-support {
+            background: var(--brand-orange); color: white; padding: 0.5rem 1.25rem;
+            border-radius: 999px; font-size: 0.75rem; font-weight: bold;
+            box-shadow: 0 4px 12px rgba(243, 146, 0, 0.2);
+        }
+
+        /* --- 3. Hero 头部区域 --- */
+        .hero { background: var(--white); padding: 5rem 0; border-bottom: 1px solid #f9fafb; }
+        .hero-grid { display: grid; gap: 3rem; align-items: center; }
+        @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.2fr 0.8fr; } }
+        
+        .breadcrumb { display: flex; font-size: 10px; font-weight: bold; letter-spacing: 0.15em; color: var(--text-light); margin-bottom: 1rem; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; margin-bottom: 1.5rem; }
+        .hero p { font-size: 0.875rem; color: var(--text-gray); max-width: 32rem; margin-bottom: 2rem; }
+        
+        .hero-btns { display: flex; gap: 1rem; }
+        .btn-black { background: #111827; color: white; padding: 0.75rem 2rem; border-radius: 0.75rem; font-size: 0.75rem; font-weight: bold; }
+        .btn-black:hover { background: var(--brand-orange); }
+        .btn-outline { border: 1px solid #e5e7eb; padding: 0.75rem 2rem; border-radius: 0.75rem; font-size: 0.75rem; font-weight: bold; }
+        .btn-outline:hover { background: #f9fafb; }
+
+        .hero-img-wrap { 
+            border-radius: 3rem; overflow: hidden; transform: rotate(2deg);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+        .hero-img-wrap img { width: 100%; height: 320px; object-fit: cover; }
+
+        /* --- 4. 支持体系 (Cards) --- */
+        .system-section { padding: 6rem 0; }
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title h2 { font-size: 1.875rem; margin-bottom: 1rem; }
+        .section-title p { font-size: 10px; color: var(--text-light); letter-spacing: 0.2em; text-transform: uppercase; }
+
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .system-card { 
+            background: white; padding: 2.5rem; border-radius: 2.5rem; 
+            border: 1px solid #f3f4f6; transition: var(--transition);
+        }
+        .system-card: { border-color: var(--brand-orange); transform: translateY(-5px); }
+        .system-card .icon { font-size: 2rem; margin-bottom: 1.5rem; display: block; }
+        .system-card h3 { font-size: 1.125rem; margin-bottom: 1rem; }
+        .system-card p { font-size: 0.75rem; color: var(--text-gray); line-height: 2; }
+
+        /* --- 5. 申请步骤 (Dark Section) --- */
+        .steps-section { 
+            background: #111827; color: white; margin: 6rem 1.5rem 6rem; 
+            padding: 1.5rem 2.5rem; border-radius: 4rem; position: relative; overflow: hidden;
+        }
+        .steps-section h2 { color: white; font-size: 1.875rem; margin-bottom: 4rem; }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; }
+        
+        .step-item { position: relative; }
+        .step-num { 
+            font-family: Georgia, serif; font-style: italic; font-size: 2rem; 
+            color: var(--brand-orange); opacity: 0.5; display: block; margin-bottom: 1.5rem; 
+        }
+        .step-item h4 { color: white; margin-bottom: 0.5rem; font-size: 1rem; }
+        .step-item p { font-size: 11px; color: #9ca3af; }
+        
+        .steps-bg-blur { 
+            position: absolute; right: 0; bottom: 0; width: 256px; height: 256px; 
+            background: var(--brand-orange); filter: blur(120px); opacity: 0.2; border-radius: 50%;
+        }
+
+
+       
+
+        /* --- 3. 进度追踪器 (Steps) --- */
+        .steps-section { padding: 40px 0 20px; }
+        .steps-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px; 
+            margin-top: 30px;
+        }
+        
+        .step-item { 
+            padding: 20px; 
+            background: var(--white); 
+            border-radius: 12px; 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 2px solid #eee; 
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .step-num { 
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            color: #e2e8f0; 
+            margin-bottom: 5px; 
+            display: block; 
+        }
+        .step-item h4 { font-size: 1rem; margin-bottom: 5px; color: var(--text-dark); }
+        .step-item p { font-size: 0.8rem; color: var(--text-gray); line-height: 1.4; }
+
+        /* 激活状态 (进行中) */
+        .step-item.active { 
+            border-color: var(--brand-orange); 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(243,146,0,0.12); 
+        }
+        .step-item.active .step-num { color: var(--brand-orange); }
+        
+        /* 完成状态 (已通过) */
+        .step-item.completed { 
+            border-color: var(--brand-green); 
+            background: #f0fff4; 
+        }
+        .step-item.completed .step-num { color: var(--brand-green); }
+        .step-item.completed::after { 
+            content: "✓"; 
+            position: absolute; 
+            top: 10px; right: 15px; 
+            color: var(--brand-green); 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+        }
+
+        /* --- 4. 上传表单卡片 --- */
+        .main-content { padding: 40px 0 100px; }
+        .upload-card { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: var(--white); 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); 
+        }
+        .header-meta { text-align: center; margin-bottom: 30px; }
+        .header-meta h3 { font-size: 1.5rem; margin-bottom: 8px; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        .form-group input { 
+            width: 100%; padding: 12px; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px; 
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        .form-group input:focus { border-color: var(--brand-orange); outline: none; }
+
+        /* 拖拽上传区 */
+        .file-zone {
+            border: 2px dashed #cbd5e1; 
+            border-radius: 12px; 
+            padding: 40px 20px;
+            text-align: center; 
+            background: #f8fafc; 
+            cursor: pointer; 
+            position: relative;
+            transition: 0.3s;
+        }
+        .file-zone:hover { border-color: var(--brand-orange); background: #fffaf5; }
+        .file-zone input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
+
+        .btn-submit { 
+            width: 100%; padding: 16px; 
+            background: #1a1a1a; 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            font-size: 1.05rem; 
+            cursor: pointer; 
+            transition: 0.3s;
+            margin-top: 25px;
+        }
+        .btn-submit:hover { background: var(--brand-orange); transform: translateY(-2px); }
+        .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; }
+
+        /* 成功提示 */
+        #success-view { display: none; text-align: center; padding: 20px 0; }
+        .check-circle { 
+            width: 80px; height: 80px; background: #f0fff4; color: var(--brand-green);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 40px; margin: 0 auto 20px; font-weight: bold;
+        }
+
+        /* --- 5. 移动端适配 (Responsive) --- */
+        @media (max-width: 768px) {
+            .steps-grid { grid-template-columns: 1fr 1fr; }
+            h2 { text-align: center; font-size: 1.5rem; }
+            .upload-card { padding: 25px; margin: 0 10px; }
+        }
+        /* --- 6. 申请表单 --- */
+        .form-section { max-width: 900px; margin: 0 auto 6rem; padding: 0 1.5rem; }
+        .form-container { 
+            background: var(--white); padding: 3rem; border-radius: 3rem; 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05); border: 1px solid #f9fafb; text-align: center;
+        }
+        .form-container h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .form-container > p { font-size: 0.875rem; color: var(--text-light); margin-bottom: 2.5rem; }
+
+        .apply-form { display: grid; gap: 1.5rem; text-align: left; }
+        @media (min-width: 768px) { .apply-form { grid-template-columns: 1fr 1fr; } }
+        .full-width { grid-column: 1 / -1; }
+
+        .input-group label { 
+            display: block; font-size: 10px; font-weight: bold; color: var(--text-light); 
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; 
+        }
+        .input-group input, .input-group textarea {
+            width: 100%; background: #f9fafb; border: none; padding: 1rem; border-radius: 0.75rem;
+            font-size: 0.875rem; transition: var(--transition);
+        }
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none; box-shadow: 0 0 0 2px var(--brand-orange); background: white;
+        }
+
+        .btn-submit {
+            background: var(--brand-orange); color: white; padding: 1rem 3rem;
+            border-radius: 1rem; font-weight: bold; font-size: 0.875rem;
+            box-shadow: 0 10px 15px -3px rgba(243, 146, 0, 0.1); margin-top: 1.5rem;
+            transition: var(--transition);
+        }
+        .btn-submit:hover { transform: scale(1.05); }
+
+         /* 让点击锚点跳转时更平滑 */
+    html { scroll-behavior: smooth; }
+
+.upload-section { padding: 100px 0; background-color: #f8fafc; }
+
+.upload-card { 
+    max-width: 800px; margin: 0 auto; background: white; 
+    padding: 50px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); 
+}
+
+.upload-header { text-align: center; margin-bottom: 40px; }
+.upload-header h2 { font-size: 2rem; color: #1a1a1a; margin-bottom: 10px; }
+.upload-header p { color: #64748b; font-size: 0.95rem; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+.form-group label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9rem; color: #475569; }
+.form-group input { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; }
+.form-group input:focus { border-color: var(--brand-orange); }
+
+/* 上传框核心样式 */
+.file-drop-area {
+    position: relative; border: 2px dashed #cbd5e1; border-radius: 12px;
+    padding: 40px; text-align: center; transition: 0.3s; background: #fbfcfd;
+}
+.file-drop-area:hover { border-color: var(--brand-orange); background: #fffaf5; }
+
+.file-drop-area input[type="file"] {
+    position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer;
+}
+
+.drop-icon { font-size: 40px; margin-bottom: 10px; }
+.drop-text { font-size: 1rem; color: #475569; margin-bottom: 10px; }
+.file-info-display { font-size: 0.85rem; color: var(--brand-orange); font-weight: bold; }
+
+.form-actions { text-align: center; margin-top: 40px; }
+.btn-submit { 
+    background: #000; color: white; border: none; padding: 15px 40px; 
+    border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.3s;
+}
+.btn-submit:hover { background: var(--brand-orange); transform: translateY(-2px); }
+.limit-hint { margin-top: 15px; font-size: 0.8rem; color: #94a3b8; }
+
+
+        /* --- 7. 页脚 --- */
+        footer { background: var(--white); border-top: 1px solid #f3f4f6; padding: 5rem 0; text-align: center; }
+        .footer-logo { display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-bottom: 2rem; }
+        .footer-logo span { font-size: 1.25rem; font-weight: bold; }
+        footer p { font-size: 0.75rem; color: var(--text-light); line-height: 2; margin-bottom: 2rem; }
+        .copyright { font-size: 10px; color: #e5e7eb; letter-spacing: 0.4em; text-transform: uppercase; }
+
+        /* 移动端间距调整 */
+        @media (max-width: 768px) {
+            .hero { padding: 3rem 0; text-align: center; }
+            .hero h1 { font-size: 2.25rem; }
+            .hero-btns { justify-content: center; }
+            .hero-img-wrap { transform: rotate(0); margin-top: 2rem; border-radius: 1.5rem; }
+            .steps-section { margin: 0 0.5rem 4rem; padding: 4rem 1.5rem; border-radius: 2rem; }
+            .form-container { padding: 2rem 1.5rem; border-radius: 2rem; }
+        }
+        /* 2. 导航栏样式 */
+nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #f3f4f6;
+    padding: 1rem 1.5rem;
+}
+.nav-container {
+    max-width: 1280px; 
+    margin: 0 auto;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
+.logo-area { display: flex; align-items: center; gap: 0.5rem; }
+.logo-circle join us { width: 32px; height: 32px; background: var(--brand-orange); border-radius: 50%; }
+.logo-text { font-weight: bold; font-size: 1.25rem; text-transform: uppercase; }
+
+.nav-links { display: flex; gap: 2.5rem; font-size: 0.875rem; font-weight: 500; }
+.nav-links a { text-decoration: none; color: inherit; transition: 0.3s; }
+.nav-links a:hover, .nav-links .active { color: var(--brand-orange); }
+
+/* 下拉菜单本地逻辑 */
+.dropdown { position: relative; cursor: pointer; padding-bottom: 5px; }
+.dropdown-menu {
+    position: absolute; left: 0; top: 100%; width: 180px;
+    background: white; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    display: none; padding: 1rem 0; border: 1px solid #f9fafb;
+}
+.dropdown:hover .dropdown-menu { display: block; }
+.dropdown-item { padding: 0.5rem 1.5rem; transition: 0.2s; }
+.dropdown-item:hover { background: var(--brand-orange-light); }
+.dropdown-item .title { font-weight: bold; display: block; font-size: 0.9rem; }
+.dropdown-item .subtitle { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+        /* --- 5. 页脚 --- */
+        footer { background: #111827; color: white; padding: 5rem 0; }
+        .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; }
+        footer h4 { color: white; margin-bottom: 1.5rem; font-size: 1rem; }
+        .footer-list { list-style: none; }
+        .footer-list li { font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.75rem; }
+        .qr-placeholder { 
+            width: 80px; height: 80px; background: rgba(255,255,255,0.1); 
+            border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.1);
+        }
+
+    </style>
+        <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="logo-circle"><img src="图片\胤泽logo第二套.png"></img></div>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html" class="active">首页</a>
+                <div class="dropdown">
+                   <a href="program.html"> <span>项目信息 ▾</span></a>
+                    <div class="dropdown-menu">
+                       <a href="program1.html"> <div class="dropdown-item">
+                            <span class="title">新苗公益</span>
+                            
+                        </div></a>
+                        <a href="program2.html"> <div class="dropdown-item">
+                            <span class="title">冬日暖阳</span>
+                            
+                        </div></a>
+                        <a href="program3.html"> <div class="dropdown-item">
+                            <span class="title">校长培训</span>
+                            
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                  <a href="info.html"><span>信息公开 ▾</span></a>  
+                    <div class="dropdown-menu">
+                      <a href="info1system.html"> <div class="dropdown-item">
+                            <span class="title">制度章程</span>
+                        </div></a> 
+                        <a href="info2 structure.html"><div class="dropdown-item">
+                            <span class="title">组织架构</span>
+                           
+                        </div></a>
+                        <a href="info3 finance.html"> <div class="dropdown-item">
+                            <span class="title">财务信息</span>
+                        </div></a>
+                        <a href="info4 news.html"> <div class="dropdown-item">
+                            <span class="title">资讯动态</span>
+                        </div></a>
+                        <a href="info5 party.html"><div class="dropdown-item">
+                            <span class="title">党建活动</span>    
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                   <a href="join us.html"><span>加入我们 ▾</span></a> 
+                    <div class="dropdown-menu">
+                        <a href="join us1 kindergarden.html"><div class="dropdown-item">
+                            <span class="title">园所招募</span>
+                        </div></a>
+                        <a href="join us2 volunteer.html"><div class="dropdown-item">
+                            <span class="title">志愿者招募</span>
+                        </div></a>
+                       <a href="join us3 cooperation.html"><div class="dropdown-item">
+                            <span class="title">合作</span></a> 
+                        </div>
+                    </div>
+                </div>
+                 <!-- 登录状态触发器 -->
+    <!-- 将 div 改为可以点击的样式，并绑定 openLogin 函数 -->
+    <div class="dropdown login-status-trigger" id="userStatusBar" onclick="openLogin()">
+        <span id="statusText">当前状态：未登录</span>
+
+    </div>
+           </div>
+            </div>
+
+          
+        </div>
+    </nav>
+   
+
+    <section class="container system-section">
+        <div class="section-title">
+            <h2>园所招募</h2>
+            <p>What We Provide</p>
+        </div>
+        <div class="card-grid">
+            <div class="system-card">
+                <span class="icon">🏗️</span>
+                <h3>资源提供</h3>
+                <p>提供美育课程、材料包及教研经费，助力孩子美育启蒙。</p>
+            </div>
+            <div class="system-card">
+                <span class="icon">📚</span>
+                <h3>教师赋能</h3>
+                <p>定期开展线上线下教学研讨会，并为优秀园长提供前往先进园所交流学习的机会。</p>
+            </div>
+            <div class="system-card">
+                <span class="icon">🧑‍🏫</span>
+                <h3>成果推广</h3>
+                <p>助力园所教研成果固化及推广。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="steps-section">
+        <div class="container">
+            <h2>申请进度</h2>
+            <div class="steps-grid" id="mainStepper">
+                <div class="step-item active" data-step="1">
+                    <span class="step-num">01</span>
+                    <h4>在线初审</h4>
+                    <p>下载表格并提交pdf上传</p>
+                </div>
+                <div class="step-item" data-step="2">
+                    <span class="step-num">02</span>
+                    <h4>联系审核</h4>
+                    <p>基金会项目组与当地教育部门联合审核，通过后批准项目资助。</p>
+                </div>
+                <div class="step-item" data-step="3">
+                    <span class="step-num">03</span>
+                    <h4>签署协议</h4>
+                    <p>明确各方权利义务，确定项目启动时间节点。</p>
+                </div>
+                <div class="step-item" data-step="4">
+                    <span class="step-num">04</span>
+                    <h4>资源落地</h4>
+                    <p>开始经费支持、交流学习及教师赋能。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="hero">
+        <div class="container hero-grid">
+            <div>
+                <nav class="breadcrumb">Join Us <span style="margin: 0 8px;">/</span> <span style="color: var(--brand-orange);">School Recruitment</span></nav>
+                <h1>让每一个孩子<br>拥有平等的起点</h1>
+                <p>“新苗公益”计划现面向全国幼儿园招募美育园所。我们不只是提供资源，更致力于通过教学赋能，打造幼教示范园。</p>
+                <div class="hero-btns">
+                    <a href="文件\新苗公益“艺美润心”大美育教研项目资助申请公告新苗公益“艺美润心”大美育教研项目资助申请公告.docx" class="btn-black">下载招募手册</a>
+                
+                </div>
+            </div>
+            <div class="hero-img-wrap">
+                <img src="图片\新苗公益\图片1.png" alt="乡村课堂"></img>
+            </div>
+        </div>
+    </section>
+    <main class="main-content">
+        <div class="container">
+            <div class="upload-card">
+                
+                <div id="form-view">
+                    <div class="header-meta">
+                        <h3>上传初审材料</h3>
+                        <p style="color: var(--text-gray); font-size: 0.9rem;">完成后进度将同步至“联系审核”</p>
+                    </div>
+
+                    <form id="applyForm">
+                        <div class="form-group">
+                            <label>园所名称</label>
+                            <input type="text" id="orgName" placeholder="请输入园所全称" required>
+                        </div>
+
+                        <div class="file-zone">
+                            <div style="font-size: 40px; margin-bottom: 10px;">📄</div>
+                            <p id="fileNameDisplay">点击选择或拖拽 PDF 申请表</p>
+                            <input type="file" id="pdfInput" accept=".pdf" required>
+                        </div>
+
+                        <button type="submit" class="btn-submit" id="submitBtn">提交并同步进度</button>
+                    </form>
+                </div>
+
+                <div id="success-view">
+                    <div class="check-circle">✓</div>
+                    <h3>提交成功</h3>
+                    <p style="color: var(--text-gray); margin-bottom: 25px;">您的申请已进入第二阶段：联系审核</p>
+                    <button class="btn-submit" onclick="location.reload()" style="background: var(--text-gray);">模拟重置</button>
+                </div>
+
+            </div>
+    </div>
+                        <!-- 登录弹窗 -->
+                        <div class="modal-overlay" id="loginOverlay">
+                            <div class="login-modal">
+                                <span class="close-modal" onclick="closeLogin()">×</span>
+                                <h3 style="margin-bottom: 10px;">手机号登录</h3>
+                                <p style="font-size: 0.85rem; color: #666; margin-bottom: 25px;">未注册手机号验证后将自动创建账号</p>
+                                
+                                <div class="form-group">
+                                    <input type="tel" id="loginPhone" placeholder="请输入手机号">
+                                </div>
+                                <div class="form-group verify-wrap">
+                                    <input type="text" id="loginCode" placeholder="验证码">
+                                    <button class="btn-code" onclick="sendCode(this)">获取验证码</button>
+                                </div>
+                                <button class="btn-submit" onclick="doLogin()">登录并提交</button>
+                            </div>
+                        </div>
+    </main>
+
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h4>联系我们</h4>
+                <ul class="footer-list">
+                    <li>📍 北京市西城区金融大街9号B座金融街中心12层1206单元</li>
+                    <li>📞 18511162638</li>
+                    <li>✉️ bjyzgyjjh@163.com</li>
+                </ul>
+            </div>
+            <div>
+                <h4>快捷导航</h4>
+                <ul class="footer-list">
+                    <li>首页</li>
+                    <li>信息公开</li>
+                    <li>加入我们</li>
+            
+                </ul>
+            </div>
+            <div>
+                <h4>关注动态</h4>
+                <div class="qr-placeholder"></div>
+            </div>
+        </div>
+    </footer>
+    <script>        // --- 状态变量 ---
+
+        let isLoggedIn = false; // 初始登录状态
+        let currentUserPhone = "";
+       
+        const pdfInput = document.getElementById('pdfInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const loginOverlay = document.getElementById('loginOverlay');
+        const userStatusBar = document.getElementById('userStatusBar');
+       
+        // --- 文件选择显示 ---
+        pdfInput.addEventListener('change', function() {
+            if (this.files[0]) fileNameDisplay.innerText = "已选择：" + this.files[0].name;
+        });
+       
+        // --- 核心：提交判断 ---
+        document.getElementById('applyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!isLoggedIn) {
+                // 如果没登录，弹出登录窗
+                loginOverlay.style.display = 'flex';
+            } else {
+                // 如果已登录，直接执行上传逻辑
+                executeUpload();
+            }
+        });
+       
+        // --- 登录操作 ---
+        function doLogin() {
+            const phone = document.getElementById('loginPhone').value;
+            const code = document.getElementById('loginCode').value;
+       
+            if (phone.length === 11 && code.length > 0) {
+                // 模拟登录成功
+                isLoggedIn = true;
+                currentUserPhone = phone;
+                
+                // 更新状态条
+                userStatusBar.innerText = "欢迎您，" + phone.substring(0,3) + "****" + phone.substring(7);
+                userStatusBar.style.color = "var(--brand-green)";
+                
+                closeLogin(); // 关闭弹窗
+                alert("登录成功！正在为您提交申请...");
+                executeUpload(); // 登录后自动触发上传
+            } else {
+                alert("请填写完整的手机号和验证码");
+            }
+        }
+       
+        function executeUpload() {
+            const btn = document.querySelector('#applyForm .btn-submit');
+            btn.innerText = "正在提交文件...";
+            btn.disabled = true;
+       
+            setTimeout(() => {
+                alert("提交成功！进度已更新。");
+                updateProgress(2); // 变色逻辑
+                btn.innerText = "已提交成功";
+                btn.style.background = "var(--brand-green)";
+            }, 1500);
+        }
+       
+        // --- 辅助功能 ---
+        function closeLogin() { loginOverlay.style.display = 'none'; }
+        
+        function sendCode(btn) {
+            let count = 60;
+            btn.disabled = true;
+            let timer = setInterval(() => {
+                btn.innerText = count + "s后重发";
+                if (count <= 0) {
+                    clearInterval(timer);
+                    btn.innerText = "获取验证码";
+                    btn.disabled = false;
+                }
+                count--;
+            }, 1000);
+            alert("验证码已发送（演示环境：请输入任意字符）");
+        }
+       
+        function updateProgress(step) {
+            document.querySelectorAll('.step-item').forEach(item => {
+                const s = parseInt(item.dataset.step);
+                item.classList.remove('active', 'completed');
+                if (s < step) item.classList.add('completed');
+                else if (s === step) item.classList.add('active');
+            });
+        }
+       // 1. 打开弹窗（复用之前 PDF 界面的逻辑）
+       function openLogin() {
+       // 只有在未登录状态下才弹出
+       if (!isLoggedIn) {
+        document.getElementById('loginOverlay').style.display = 'flex';
+       }
+       }
+       
+       // 2. 修改之前的 doLogin 函数，增加对导航栏文字的更新
+       function doLogin() {
+       const phone = document.getElementById('loginPhone').value;
+       const code = document.getElementById('loginCode').value;
+       
+       if (phone.length === 11 && code.length > 0) {
+        isLoggedIn = true;
+        const maskedPhone = phone.substring(0,3) + "****" + phone.substring(7);
+       
+        // --- 关键修改点：更新导航栏状态文字 ---
+        const statusContainer = document.getElementById('userStatusBar');
+        const statusText = document.getElementById('statusText');
+        
+        statusText.innerText = "欢迎您：" + maskedPhone;
+        statusContainer.classList.add('status-logged-in'); // 变绿
+        statusContainer.onclick = null; // 登录后点击不再弹窗（或者改为跳转个人中心）
+       
+        // 关闭弹窗
+        closeLogin();
+        
+        // 如果是在申请表单处点击的，继续执行上传
+        // executeUpload(); 
+       } else {
+        alert("请输入正确的手机号和验证码");
+       }
+       } 
+        </script>
+</body>
+
+</html>

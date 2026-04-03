@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资讯详情 - 胤泽公益基金会</title>
+    <style>
+        /* --- 本地化基础变量 --- */
+        :root {
+            --brand-orange: #f39200;
+            --brand-orange-light: #fff8ee;
+            --text-dark: #2c3e50;
+            --text-main: #4a4a4a;
+            --text-light: #999999;
+            --bg-body: #fdfaf5;
+            --white: #ffffff;
+            --border: #eeeeee;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; 
+            background-color: var(--bg-body); 
+            color: var(--text-main);
+            line-height: 1.8; /* 优化阅读行高 */
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
+        .article-container { max-width: 800px; margin: 0 auto; background: var(--white); padding: 60px 80px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+
+        /* --- 导航 --- */
+        nav {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #f3f4f6;
+            padding: 1rem 1.5rem;
+        }
+        .nav-container {
+            max-width: 1280px; 
+            margin: 0 auto;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        .logo-area { display: flex; align-items: center; gap: 0.5rem; }
+        .logo-circle info { width: 32px; height: 32px; background: var(--brand-orange); border-radius: 50%; }
+        .logo-text { font-weight: bold; font-size: 1.25rem; text-transform: uppercase; }
+
+        .nav-links { display: flex; gap: 2.5rem; font-size: 0.875rem; font-weight: 500; }
+        .nav-links a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .nav-links a:hover, .nav-links .active { color: var(--brand-orange); }
+        .dropdown { position: relative; cursor: pointer; padding-bottom: 5px; }
+        .dropdown-menu {
+            position: absolute; left: 0; top: 100%; width: 180px;
+            background: white; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: none; padding: 1rem 0; border: 1px solid #f9fafb;
+        }
+        .dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-item { padding: 0.5rem 1.5rem; transition: 0.2s; }
+        .dropdown-item:hover { background: var(--brand-orange-light); }
+        .dropdown-item .title { font-weight: bold; display: block; font-size: 0.9rem; }
+        .dropdown-item .subtitle { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+
+        /* --- 3. 头部横幅 (Banner) --- */
+        .banner { background: var(--white); padding: 5rem 0; border-bottom: 1px solid #f9fafb; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3rem; align-items: center; }
+        
+        .breadcrumb { 
+            display: flex; gap: 0.5rem; font-size: 10px; font-weight: bold; 
+            text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        .breadcrumb .active { color: var(--brand-orange); }
+
+        .banner h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 1.5rem; }
+        .banner h1 span { color: var(--brand-orange); }
+        .banner p { color: var(--text-gray); font-size: 0.875rem; max-width: 28rem; margin-bottom: 2rem; }
+
+        .stats { display: flex; gap: 2rem; align-items: center; }
+        .stat-item { text-align: center; }
+        .stat-item .val { display: block; font-size: 1.5rem; font-weight: bold; color: #111827; }
+        .stat-item .lab { font-size: 9px; color: var(--text-light); font-weight: bold; text-transform: uppercase; letter-spacing: -0.02em; }
+        .divider-v { width: 1px; height: 40px; background: #f3f4f6; }
+
+        .banner-img-box { position: relative; }
+        .banner-blur { 
+            position: absolute; inset: -1rem; background: rgba(243, 146, 0, 0.1); 
+            border-radius: 3rem; filter: blur(40px); z-index: 0;
+        }
+        .banner-img { 
+            position: relative; width: 100%; border-radius: 2.5rem; 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+            filter: grayscale(1); transition: 0.7s; z-index: 1;
+        }
+        .banner-img:hover { filter: grayscale(0); }
+
+
+        /* --- 面包屑导航 --- */
+        .breadcrumb { padding: 30px 0; font-size: 0.85rem; color: var(--text-light); }
+        .breadcrumb a { text-decoration: none; color: var(--text-light); transition: 0.3s; }
+        .breadcrumb a:hover { color: var(--brand-orange); }
+        .breadcrumb span { margin: 0 8px; opacity: 0.5; }
+
+        /* --- 文章头部 --- */
+        .article-header { border-bottom: 1px solid var(--border); margin-bottom: 40px; padding-bottom: 30px; }
+        .article-category { display: inline-block; padding: 4px 12px; background: var(--brand-orange-light); color: var(--brand-orange); border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-bottom: 20px; }
+        .article-title { font-size: 2.2rem; line-height: 1.3; color: var(--text-dark); margin-bottom: 25px; }
+        .article-meta { display: flex; gap: 20px; font-size: 0.85rem; color: var(--text-light); }
+        .article-meta span { display: flex; align-items: center; gap: 5px; }
+
+        /* --- 文章正文样式 --- */
+        .article-content { font-size: 1.05rem; color: var(--text-main); }
+        .article-content p { margin-bottom: 25px; text-align: justify;text-indent: 2em; }
+        .article-content h2 { font-size: 1.5rem; color: var(--text-dark); margin: 40px 0 20px; padding-left: 15px; border-left: 4px solid var(--brand-orange); }
+    
+
+        /* 引用块样式 */
+        blockquote { 
+            margin: 40px 0; padding: 30px; background: #f9f9f9; 
+            border-radius: 12px; font-style: italic; color: #666; 
+            position: relative; 
+        }
+        blockquote::before { content: "“"; font-size: 4rem; position: absolute; left: 10px; top: -10px; opacity: 0.1; font-family: serif; }
+
+        /* 离线图片占位符 */
+        
+    
+        .img-placeholder span { font-size: 3rem; margin-bottom: 10px; }
+        .img-caption { font-size: 0.85rem; color: var(--text-light); text-align: center; margin-top: -20px; margin-bottom: 30px; }
+        /* --- 基础图片容器（共有属性） --- */
+      
+.img-container { 
+    border-radius: 2rem; 
+    overflow: hidden; 
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1); 
+    transition: 0.5s; 
+    background: #eee; /* 图片加载前的底色 */
+    margin: 10px;
+    display: inline-block; /* 方便并排展示 */
+    vertical-align: top;
+}
+
+.img-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; /* 无论横竖，图片都不变形 */
+}
+
+.group:hover .img-container { 
+    transform: translateY(-8px); 
+    box-shadow: 0 30px 60px -15px rgba(0,0,0,0.2);
+}
+
+/* --- 规格 1：竖版 (Portrait) --- */
+
+.img-container.is-portrait {
+    width: 350px;       /* 竖版宽度 */
+    height: 500px;      /* 竖版高度 */
+    margin: 40px auto;  /* 核心：上下留白40px，左右自动(auto)即居中 */
+    display: block;     /* 必须设置为块级元素，margin:auto 才生效 */
+    
+    /* 原有样式 */
+    border-radius: 2rem;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* --- 规格 2：横版 (Landscape) --- */
+.img-container.is-landscape {
+    width: 600px;
+    height: 400px; /* 3:2 比例 */
+}
+
+/* --- 响应式适配：手机端自动调整 --- */
+@media (max-width: 768px) {
+    .img-container.is-portrait,
+    .img-container.is-landscape {
+        width: 100%;    /* 手机端占满全宽 */
+        height: auto;
+        aspect-ratio: 4 / 5; /* 手机端统一使用较舒适的竖向比例 */
+    }
+}
+
+
+
+    }
+}
+
+        /* --- 文章脚注/标签 --- */
+        .article-footer { margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--border); }
+        .tags { display: flex; gap: 10px; margin-bottom: 40px; }
+        .tag-item { font-size: 0.8rem; background: #f0f0f0; padding: 4px 12px; border-radius: 20px; color: #777; }
+
+        /* --- 上下篇翻页 --- */
+        .prev-next { display: flex; justify-content: space-between; gap: 20px; }
+        .pn-card { flex: 1; padding: 20px; background: var(--bg-body); border-radius: 10px; text-decoration: none; transition: 0.3s; }
+        .pn-card:hover { background: var(--brand-orange-light); }
+        .pn-label { font-size: 0.75rem; color: var(--text-light); margin-bottom: 5px; display: block; }
+        .pn-title { font-size: 0.9rem; color: var(--text-dark); font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+        /* --- 5. 页脚 --- */
+        footer { border-top: 1px solid #f3f4f6; padding-top: 5rem; padding-bottom: 2.5rem; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; }
+        .footer-title { font-weight: bold; margin-bottom: 1.5rem; font-size: 1rem; }
+        
+        .contact-list { list-style: none; font-size: 0.75rem; color: var(--text-gray); }
+        .contact-list li { margin-bottom: 1rem; }
+
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.75rem; color: var(--text-light); }
+        
+        .qrcode-area { text-align: right; }
+        .qrcode-placeholder { 
+            display: inline-block; width: 80px; height: 80px; 
+            background: #f9fafb; border-radius: 0.75rem; border: 1px solid #f3f4f6;
+            margin-bottom: 1rem;
+        }
+        .copyright { 
+            text-align: center; font-size: 10px; color: #e5e7eb; 
+            letter-spacing: 0.2em; text-transform: uppercase; margin-top: 3rem;
+        }
+
+        /* --- 6. 响应式处理 --- */
+        @media (max-width: 1024px) {
+            .grid-2 { grid-template-columns: 1fr; gap: 2rem; }
+            .img-container { height: 350px; order: -1 !important; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .qrcode-area { text-align: center; }
+            .nav-grid { justify-content: center; }
+        }
+    </style>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="logo-circle"><img src="图片\胤泽logo第二套.png"></img></div>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html" class="active">首页</a>
+                <div class="dropdown">
+                   <a href="program.html"> <span>项目信息 ▾</span></a>
+                    <div class="dropdown-menu">
+                       <a href="program1.html"> <div class="dropdown-item">
+                            <span class="title">新苗公益</span>
+                           
+                        </div></a>
+                        <a href="program2.html"> <div class="dropdown-item">
+                            <span class="title">冬日暖阳</span>
+                            
+                        </div></a>
+                        <a href="program3.html"> <div class="dropdown-item">
+                            <span class="title">校长培训</span>
+                            
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                  <a href="info.html"><span>信息公开 ▾</span></a>  
+                    <div class="dropdown-menu">
+                      <a href="info1system.html"> <div class="dropdown-item">
+                            <span class="title">制度章程</span>
+                        </div></a> 
+                        <a href="info2 structure.html"><div class="dropdown-item">
+                            <span class="title">组织架构</span>
+                           
+                        </div></a>
+                        <a href="info3 finance.html"> <div class="dropdown-item">
+                            <span class="title">财务信息</span>
+                        </div></a>
+                        <a href="info4 news.html"> <div class="dropdown-item">
+                            <span class="title">资讯动态</span>
+                        </div></a>
+                        <a href="info5 party.html"><div class="dropdown-item">
+                            <span class="title">党建活动</span>    
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                   <a href="join us.html"><span>加入我们 ▾</span></a> 
+                    <div class="dropdown-menu">
+                        <a href="join us1 kindergarden.html"><div class="dropdown-item">
+                            <span class="title">园所招募</span>
+                        </div></a>
+                        <a href="join us2 volunteer.html"><div class="dropdown-item">
+                            <span class="title">志愿者招募</span>
+                        </div></a>
+                       <a href="join us3 cooperation.html"><div class="dropdown-item">
+                            <span class="title">合作</span></a> 
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+    </nav>
+
+
+    <main class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a><span>/</span>
+            <a href="news-list.html">资讯动态</a><span>/</span>
+            正文
+        </div>
+
+        <article class="article-container">
+            <header class="article-header">
+                <span class="article-category">项目进展</span>
+                <h1 class="article-title">新苗公益项目组专家团队走进乐都区开展入园指导系列活动</h1>
+                <div class="article-meta">
+                    <span>📅 2025年10月31日</span>
+                    <span>✍️ 作者： 李玉莲、保守明、吴栋香
+                    </span>
+                    
+                </div>
+            </header>
+
+            <div class="article-content">
+                <p>
+                    为深化幼儿美育教育实践，推动本土文化与美育的深度融合，提升幼儿园美育课程质量与教师专业素养，2025年10月30日，新苗公益项目组专家团队走进乐都区峰堆乡上帐房幼儿园及乐都区幼儿园先后开展入园指导系列活动，活动内容丰富、针对性强，为幼儿美育发展注入新动力，海东市学前教育科科长李亚霖、区教育局副局长吴栋香、区教育局学前中心主任保守明、李海萍老师等全程陪同。
+                </p>
+
+               
+                <div class="img-container" style="order: 2;">
+                    <img src="图片\新闻\海东1.jpg" alt="新苗公益">
+                </div>
+                
+              
+
+                
+                <p>
+                    捐赠仪式上，一批美育教具送达园所，为乡村幼儿美育实践提供硬件支撑。新苗公益项目组专家团队教师进行了公开课展示活动，慧慧老师的教学现场让众人眼前一亮，以轻声细语的方式与孩子交流创作想法，这种尊重与平等的姿态，充分保护了孩子的创作自主性，整个活动中师生互动松弛且自在，孩子的创意在无拘无束的氛围中肆意生长。这一幕让现场老师们深受触动，纷纷反思：在今后的教学中应减少单向说教，把更多时间与空间交还给孩子，让他们在自主探索中构建对美与本土文化的独特认知。新苗公益项目组专家霍力岩教授现场点评，她强调：全体教师通过借鉴该模式，在每一次美育活动中务必预留至少15分钟的“自主创作与交流时间”，让孩子能充分地讨论创意、交流想法、深度探究艺术表现形式、自由开展创作，保障幼儿在美育活动中的自主学习权与表达权，真正让美育成为唤醒幼儿创造力的钥匙。活动最后，全体人员合影留念，为这场公益助力的美育之行留下珍贵印记。<br>
+ 
+                </p>
+
+              
+
+                <div class="group">
+                    <div class="img-container" style="order: 2;">
+                        <img src="图片\新闻\海东2.jpg" alt="新苗公益">
+                    </div>
+                </div>
+
+                <p>
+                    美育团队专家霍力岩教授对园所文化、环境及课程实践进行了点评指导，她指出需将“美育与本土文化的链接”作为课程与活动设计的核心主体，而非附加元素。要深度钻研如何以本土文化为根基，通过具象化的美育活动真正落地“以美育人”——既要让幼儿感受本土文化的外在形态之美，更要引导其理解文化背后的精神内核，实现审美素养与文化认同的同步培育；在活动材料与表达形式上，要推动材料从“低结构”向“非结构性”升级，再实现“结构化表达”的进阶，最终引导幼儿将零散的创作思路与文化元素整合，通过有序的组合、创意的布局等方式完成结构化表达，让作品既保留童真创意，又承载清晰的本土文化审美印记。 在答疑解惑环节，专家们针对教师在美育课程实施中的瓶颈问题进行了回应：美育主题可以以幼儿经验为基石灵活调整，课程的核心目标就是通过美育培养“有文化根脉、有审美能力、有创新意识”的儿童，为教师破解实践难题提供了清晰路径。
+                </p>
+                 
+                <div class="img-container" style="order: 2;">
+                    <img src="图片\新闻\海东3.jpg" alt="新苗公益">
+                </div>
+                <p>
+                    最后，市教育局学前科李亚霖科长对活动做了总结并提出以下要求：是要以美育为抓手，做大美海东课程，将班本课程做成主题探究的实践活动，教师要从制作者的角色里解脱，充分支持孩子的活动，让本土文化与美育的融合从单一活动走向课程体系化；二是教师要在幼儿园环境呈现上深耕细作，从园区整体规划到班级区域创设，都要充分融入本土文化美育元素，要有美的体验和感染力，以儿童为本，打造“一步一景皆美育，一景一韵显文化”的育人环境，让幼儿在日常浸润中获得美的感受与文化的滋养。
+                </p>
+            </div>
+
+          
+        </article>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h4>联系我们</h4>
+                <ul class="footer-list">
+                    <li>📍 北京市西城区金融大街9号B座金融街中心12层1206单元</li>
+                    <li>📞 18511162638</li>
+                    <li>✉️ bjyzgyjjh@163.com</li>
+                </ul>
+            </div>
+            <div>
+                <h4>快捷导航</h4>
+                <ul class="footer-list">
+                    <li>首页</li>
+                    <li>信息公开</li>
+                    <li>加入我们</li>
+            
+                </ul>
+            </div>
+            <div>
+                <h4>关注动态</h4>
+                <div class="qr-placeholder"></div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

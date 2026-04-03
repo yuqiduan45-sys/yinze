@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>制度章程 - 北京胤泽公益基金会</title>
+    <style>
+        /* --- 1. 基础重置与全局变量 --- */
+        :root {
+            --brand-orange: #f39200;
+            --brand-warm-bg: #fdfaf5;
+            --text-main: #374151;
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --text-light: #9ca3af;
+            --white: #ffffff;
+            --bg-light: #f9fafb;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body { 
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; 
+            background-color: var(--brand-warm-bg); 
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 { 
+            font-family: "Noto Serif SC", "Source Han Serif CN", "Songti SC", serif; 
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+
+        /* --- 2. 导航栏 --- */
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #f3f4f6;
+            padding: 0.75rem 0;
+        }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; }
+        .logo-icon { 
+            width: 32px; height: 32px; background: var(--brand-orange); 
+            border-radius: 8px; color: white; display: flex; 
+            align-items: center; justify-content: center; font-weight: bold; 
+        }
+        .nav-links { display: none; gap: 2rem; font-size: 0.875rem; font-weight: 500; }
+        @media (min-width: 1024px) { .nav-links { display: flex; } }
+        .nav-links a { color: var(--text-gray); }
+        .nav-links a:hover, .nav-links a.active { color: var(--brand-orange); }
+
+        .btn-support {
+            background: var(--brand-orange); color: white; border: none;
+            padding: 0.5rem 1.25rem; border-radius: 999px;
+            font-size: 0.75rem; font-weight: bold; cursor: pointer;
+        }
+
+        /* --- 3. 头部标题区 --- */
+        .page-header { background: var(--white); padding: 4rem 0; border-bottom: 1px solid #f3f4f6; text-align: center; }
+        .page-header h1 { font-size: 2.25rem; margin-bottom: 1rem; }
+        .page-header p { color: var(--text-light); font-size: 0.875rem; max-width: 40rem; margin: 0 auto; line-height: 1.8; }
+
+        /* --- 4. 主内容布局 --- */
+        .main-grid { 
+            display: grid; gap: 3rem; padding: 3rem 0; 
+        }
+        @media (min-width: 1024px) {
+            .main-grid { grid-template-columns: 1fr 3fr; }
+        }
+
+        /* 侧边索引 */
+        .sidebar { 
+            position: sticky; top: 6rem; height: fit-content; 
+            background: var(--white); padding: 2rem; border-radius: 2rem;
+            border: 1px solid #f3f4f6;
+        }
+        .sidebar-tag { 
+            font-size: 0.65rem; color: #e5e7eb; font-weight: bold; 
+            text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1.5rem; display: block;
+        }
+        .side-nav { list-style: none; }
+        .side-nav li { margin-bottom: 1rem; }
+        .side-nav a { 
+            font-size: 0.875rem; color: var(--text-gray); font-weight: 500;
+            display: block; border-right: 2px solid transparent; padding: 0.25rem 0;
+        }
+        .side-nav a:hover { color: var(--brand-orange); }
+        .side-nav a.active { color: var(--brand-orange); font-weight: bold; border-right-color: var(--brand-orange); }
+        
+        .sidebar-note { 
+            margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid #f9fafb;
+            font-size: 10px; color: var(--text-light); line-height: 1.5;
+        }
+
+        /* 文档列表区 */
+        .content-area section { margin-bottom: 4rem; scroll-margin-top: 6rem; }
+        .section-title { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+        .indicator { width: 6px; height: 24px; background: var(--brand-orange); border-radius: 99px; }
+
+        /* 文档卡片 - 长条型 */
+        .doc-card {
+            background: var(--white); padding: 1.5rem; border-radius: 1.25rem;
+            border: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem; transition: var(--transition);
+        }
+        .doc-card:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.03); border-color: #ffedd5; }
+        
+        .doc-info { display: flex; align-items: center; gap: 1rem; }
+        .doc-icon { 
+            width: 40px; height: 40px; background: #fffaf0; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
+        }
+        .doc-meta h4 { font-size: 0.875rem; margin-bottom: 0.25rem; }
+        .doc-meta p { font-size: 10px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; }
+
+        .doc-btns { display: flex; gap: 0.5rem; }
+        .btn-mini { 
+            padding: 0.5rem 1rem; font-size: 10px; font-weight: bold; border-radius: 8px; cursor: pointer; border: none;
+        }
+        .btn-preview { background: #fffaf0; color: var(--brand-orange); }
+        .btn-preview:hover { background: var(--brand-orange); color: white; }
+        .btn-download { background: #f9fafb; color: var(--text-light); }
+        .btn-download:hover { background: #f3f4f6; color: var(--text-gray); }
+
+        /* 文档卡片 - 网格型 (用于项目规范) */
+        .doc-grid { display: grid; gap: 1rem; }
+        @media (min-width: 768px) { .doc-grid { grid-template-columns: 1fr 1fr; } }
+        
+        .doc-box {
+            background: var(--white); padding: 1.5rem; border-radius: 1.25rem;
+            border: 1px solid #f3f4f6; display: flex; flex-direction: column; justify-content: space-between;
+            min-height: 120px; transition: var(--transition);
+        }
+        .doc-box:hover { border-color: rgba(243, 146, 0, 0.3); }
+        .doc-box h4 { font-size: 0.875rem; line-height: 1.5; }
+        .doc-box-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
+        .doc-box-footer span { font-size: 10px; color: var(--text-light); }
+        .btn-preview { font-size: 12px; font-weight: bold; color: var(--brand-orange); text-decoration: none; }
+
+        /* --- 5. 页脚 --- */
+        footer { background: var(--white); border-top: 1px solid #f3f4f6; padding: 4rem 0; }
+        .footer-flex { 
+            display: flex; flex-direction: column; align-items: center; gap: 2rem; 
+        }
+        @media (min-width: 768px) { 
+            .footer-flex { flex-direction: row; justify-content: space-between; } 
+        }
+        .contact-info { font-size: 12px; color: var(--text-light); line-height: 2; }
+        .footer-logo { font-family: serif; font-size: 2rem; color: #f3f4f6; font-style: italic; }
+        .copyright { font-size: 10px; color: #e5e7eb; text-align: right; letter-spacing: 0.1em; }
+    </style>
+    
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="logo-circle"><img src="图片\胤泽logo第二套.png"></img></div>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html" class="active">首页</a>
+                <div class="dropdown">
+                   <a href="program.html"> <span>项目信息 ▾</span></a>
+                    <div class="dropdown-menu">
+                       <a href="program1.html"> <div class="dropdown-item">
+                            <span class="title">新苗公益</span>
+                            
+                        </div></a>
+                        <a href="program2.html"> <div class="dropdown-item">
+                            <span class="title">冬日暖阳</span>
+                            
+                        </div></a>
+                        <a href="program3.html"> <div class="dropdown-item">
+                            <span class="title">校长培训</span>
+                            
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                  <a href="info.html"><span>信息公开 ▾</span></a>  
+                    <div class="dropdown-menu">
+                      <a href="info1system.html"> <div class="dropdown-item">
+                            <span class="title">制度章程</span>
+                        </div></a> 
+                        <a href="info2 structure.html"><div class="dropdown-item">
+                            <span class="title">组织架构</span>
+                           
+                        </div></a>
+                        <a href="info3 finance.html"> <div class="dropdown-item">
+                            <span class="title">财务信息</span>
+                        </div></a>
+                        <a href="info4 news.html"> <div class="dropdown-item">
+                            <span class="title">资讯动态</span>
+                        </div></a>
+                        <a href="info5 party.html"><div class="dropdown-item">
+                            <span class="title">党建活动</span>    
+                        </div></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                   <a href="join us.html"><span>加入我们 ▾</span></a> 
+                    <div class="dropdown-menu">
+                        <a href="join us1 kindergarden.html"><div class="dropdown-item">
+                            <span class="title">园所招募</span>
+                        </div></a>
+                        <a href="join us2 volunteer.html"><div class="dropdown-item">
+                            <span class="title">志愿者招募</span>
+                        </div></a>
+                       <a href="join us3 cooperation.html"><div class="dropdown-item">
+                            <span class="title">合作</span></a> 
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>制度章程</h1>
+            <p>依法合规是基金会运行的基础。我们建立了完善的内部控制制度体系，确保各项业务在法律与制度的框架下透明、规范运行。</p>
+        </div>
+    </header>
+
+    <main class="container main-grid">
+        <aside class="sidebar">
+            <span class="sidebar-tag">分类索引</span>
+            <ul class="side-nav">
+                <li><a href="#base" class="active">基本章程</a></li>
+                <li><a href="#finance">财务管理制度</a></li>
+                <li><a href="#personnel">人事管理制度</a></li>
+                <li><a href="#project">项目管理规范</a></li>
+                <li><a href="#other">其他制度</a></li>
+            </ul>
+            <div class="sidebar-note">
+                * 所有制度文件均经由理事会审议通过并生效。
+            </div>
+        </aside>
+
+        <div class="content-area">
+            
+            <section id="base">
+                <div class="section-title">
+                    <span class="indicator"></span>
+                    <h2>基本章程</h2>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-info">
+                        <div class="doc-icon">📄</div>
+                        <div class="doc-meta">
+                            <h4>北京胤泽公益基金会章程</h4>
+                            <p>最后更新日期：2025.12.18</p>
+                        </div>
+                    </div>
+                    <div class="doc-btns">
+                        <a href="文件\北京胤泽公益基金会章程-核准版-20260112 .pdf" target="_blank" class="btn-mini btn-preview">预览</a>
+                        
+                        <a href="文件\北京胤泽公益基金会章程-核准版-20260112 .pdf" download="某某公益基金会章程.pdf" class="btn-mini btn-download">下载</a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="finance">
+                <div class="section-title">
+                    <span class="indicator"></span>
+                    <h2>财务管理制度</h2>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-info">
+                        <div class="doc-icon">💰</div>
+                        <div class="doc-meta">
+                            <h4>胤泽基金会财务管理制度</h4>
+                            <p>生效日期：2026.01.15</p>
+                        </div>
+                    </div>
+                    <div class="doc-btns">
+                        <a href="文件\北京胤泽公益基金会章程-核准版-20260112 .pdf" target="_blank" class="btn-mini btn-preview">预览</a>
+                        
+                        <a href="文件\北京胤泽公益基金会章程-核准版-20260112 .pdf" download="某某公益基金会章程.pdf" class="btn-mini btn-download">下载</a>
+                    </div>
+                </div>
+              
+            </section>
+            <section id="finance">
+                <div class="section-title">
+                    <span class="indicator"></span>
+                    <h2>人事管理制度</h2>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-info">
+                        <div class="doc-icon">📄</div>
+                        <div class="doc-meta">
+                            <h4>胤泽基金会人事管理制度</h4>
+                            <p>生效日期：2026.01.15</p>
+                        </div>
+                    </div>
+                    <div class="doc-btns">
+                        <a href="文件\北京胤泽公益基金会章程-核准版-20260112 .pdf" target="_blank" class="btn-mini btn-preview">预览</a>
+                        
+                        <a href="文件\北京胤泽公益基金会章程-核准版-20260112 .pdf" download="某某公益基金会章程.pdf" class="btn-mini btn-download">下载</a>
+                    </div>
+                </div>
+              
+            </section>
+
+
+            <section id="finance">
+                <div class="section-title">
+                    <span class="indicator"></span>
+                    <h2>项目管理制度</h2>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-info">
+                        <div class="doc-icon">🔎</div>
+                        <div class="doc-meta">
+                            <h4>胤泽基金会项目管理制度</h4>
+                            <p>生效日期：2026.01.15</p>
+                        </div>
+                    </div>
+                    <div class="doc-btns">
+                        <a href="文件\北京胤泽公益基金会章程-核准版-20260112 .pdf" target="_blank" class="btn-mini btn-preview">预览</a>
+                        <a href="文件\北京胤泽公益基金会章程-核准版-20260112 .pdf" download="某某公益基金会章程.pdf" class="btn-mini btn-download">下载</a>
+                    </div>
+                </div>
+              
+            </section>
+
+            <section id="project">
+                <div class="section-title">
+                    <span class="indicator"></span>
+                    <h2>其他制度</h2>
+                </div>
+                <div class="doc-grid">
+                    <div class="doc-box">
+                        <h4>胤泽基金会信息公开制度</h4>
+                        <div class="doc-box-footer">
+                            <span>生效日期：2026.3.31</span>
+                            <div class="doc-btns">
+                                <a href="path/to/file.pdf" target="_blank" class="btn-mini btn-preview">预览</a>
+
+                                <a href="文件\北京胤泽公益基金会章程-核准版-20260112 .pdf" download="某某公益基金会章程.pdf" class="btn-mini btn-download">下载</a>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="doc-box">
+                        <h4>胤泽基金会印章及证照管理制度</h4>
+                        <div class="doc-box-footer">
+                            <span>生效日期：2026.3.31</span>
+                            <div class="doc-btns">
+                                <a href="path/to/file.pdf" target="_blank" class="btn-mini btn-preview">预览</a>
+
+                                <a href="文件\北京胤泽公益基金会章程-核准版-20260112 .pdf" download="某某公益基金会章程.pdf" class="btn-mini btn-download">下载</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h4>联系我们</h4>
+                <ul class="footer-list">
+                    <li>📍 北京市西城区金融大街9号B座金融街中心12层1206单元</li>
+                    <li>📞 18511162638</li>
+                    <li>✉️ bjyzgyjjh@163.com</li>
+                </ul>
+            </div>
+            <div>
+                <h4>快捷导航</h4>
+                <ul class="footer-list">
+                    <li>首页</li>
+                    <li>信息公开</li>
+                    <li>加入我们</li>
+            
+                </ul>
+            </div>
+            <div>
+                <h4>关注动态</h4>
+                <div class="qr-placeholder"></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 实现侧边栏点击激活样式切换
+        const sideLinks = document.querySelectorAll('.side-nav a');
+        sideLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sideLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
